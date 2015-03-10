@@ -259,10 +259,10 @@ function draw_lines() {
             icon: getBoxSymbol(1, '#00ff72', symbolSize),
             offset: '50%'
           }, {
-            icon: getLetterSymbol(getRandomInt(0, 1)? "E" : "H", -1, '#333', symbolSize, symbolPadding),
+            icon: getLetterSymbol(getRandomInt(0, 1)? "E" : "H", -1, '#fff', symbolSize, symbolPadding),
             offset: '50%'
           }, {
-            icon: getLetterSymbol(getRandomInt(0, 1)? "M" : "F", 0, '#333', symbolSize, symbolPadding),
+            icon: getLetterSymbol(getRandomInt(0, 1)? "M" : "F", 0, '#fff', symbolSize, symbolPadding),
             offset: '50%'
           }
           // , {
