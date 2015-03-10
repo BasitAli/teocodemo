@@ -168,26 +168,79 @@ function draw_lines() {
         line_color = "#FF0000";
       }
 
-      var colorSymbol1 = {
-        path: 'M-2 -6 h 4 v 4 h -4 Z',
-        fillColor: '#006cff',
-        fillOpacity: 1.0,
-        strokeWeight: 0
-      };
+      function getBoxSymbol(index, color, size) {
+        var x_start = - size/2;
+        y_start = x_start + (index * size);
 
-      var colorSymbol2 = {
-        path: 'M-2 -2 h 4 v 4 h -4 Z',
-        fillColor: '#ff7e00',
-        fillOpacity: 1.0,
-        strokeWeight: 0
-      };;
+        return {
+              path: 'M' + x_start + ' ' + y_start + ' h ' + size + ' v ' + size + ' h -' + size + ' Z',
+              fillColor: color,
+              fillOpacity: 1.0,
+              strokeWeight: 0
+            };
+      }
 
-      var colorSymbol3 = {
-        path: 'M-2 2 h 4 v 4 h -4 Z',
-        fillColor: '#00ff72',
-        fillOpacity: 1.0,
-        strokeWeight: 0
-      };;
+      function getLetterSymbol(letter, index, color, size, padding) {
+        if (letter == 'E') {
+          var x_start = - size/2 + 1;
+          y_start = (index * size) - 2;
+
+          size -= padding;
+          var halfSize = size / 2;
+          var halfPadding = padding / 2;
+
+          return {
+                path: 'M' + (x_start+size-halfPadding) + ',' + y_start + ' l-' + (size-halfPadding) + ',0 l0,' + halfSize + ' l' + halfSize + ',0 m-' + halfSize + ',0 l0,' + halfSize + ' l' + (size-halfPadding) + ',0',
+                strokeColor: color,
+                strokeWeight: 2
+              };
+        }
+        else if (letter == 'H') {
+          var x_start = - size/2 + 1;
+          y_start = (index * size) - 2;
+
+          size -= padding;
+          var halfSize = size / 2;
+          var halfPadding = padding / 2;
+
+          return {
+                path: 'M' + (x_start+halfPadding) + ',' + y_start + ' l0,' + size + ' l0,-' + halfSize + ' l' + (halfSize) + ',0 m0,-' + halfSize + ' l0,' + size,
+                strokeColor: color,
+                strokeWeight: 2
+              };
+        }
+        else if (letter == 'F') {
+          var x_start = - size/2 + 1;
+          y_start = (index * size) - 2;
+
+          size -= padding;
+          var halfSize = size / 2;
+          var halfPadding = padding / 2;
+
+          return {
+                path: 'M' + (x_start+size-halfPadding) + ',' + y_start + ' l-' + (size-halfPadding) + ',0 l0,' + halfSize + ' l' + halfSize + ',0 m-' + halfSize + ',0 l0,' + halfSize,
+                strokeColor: color,
+                strokeWeight: 2
+              };
+        }
+        else if (letter == 'M') {
+          var x_start = - size/2 + 1;
+          y_start = (index * size) - 2;
+
+          size -= padding;
+          var halfSize = size / 2;
+          var halfPadding = padding / 2;
+
+          return {
+                path: 'M' + x_start + ',' + (y_start+size) + ' l0,-' + size + ' l' + halfSize +',' + (size-halfPadding) + ' l' + halfSize + ',-' + (size-halfPadding) + ' l0,' + size,
+                strokeColor: color,
+                strokeWeight: 2
+              };
+        }
+      }
+
+      var symbolSize = 6;
+      var symbolPadding = 2;
 
       var line = new google.maps.Polyline({
         path: lineCoordinates,
@@ -197,15 +250,25 @@ function draw_lines() {
         strokeWeight: 2,
         id: line_key,
         icons: [{
-            icon: colorSymbol1,
+            icon: getBoxSymbol(-1, '#006cff', symbolSize),
             offset: '50%'
           }, {
-            icon: colorSymbol2,
+            icon: getBoxSymbol(0, '#ff7e00', symbolSize),
             offset: '50%'
           }, {
-            icon: colorSymbol3,
+            icon: getBoxSymbol(1, '#00ff72', symbolSize),
+            offset: '50%'
+          }, {
+            icon: getLetterSymbol(getRandomInt(0, 1)? "E" : "H", -1, '#333', symbolSize, symbolPadding),
+            offset: '50%'
+          }, {
+            icon: getLetterSymbol(getRandomInt(0, 1)? "M" : "F", 0, '#333', symbolSize, symbolPadding),
             offset: '50%'
           }
+          // , {
+          //   icon: getLetterSymbol('F', 1, '#333', symbolSize, symbolPadding),
+          //   offset: '50%'
+          // },
         ],
       });
       line.setMap(map);
