@@ -86,6 +86,19 @@ for (var site_from in sites) {
   }
 }
 
+var latencyList2 = [];
+for (var i = 0; i < 4 * 24; i++) {
+  latencyList2.push(getRandomInt(0, 150));
+}
+var link2 = {
+  "site_from": sites[1],
+  "site_to": sites[2],
+  "latency": getRandomInt(0, 150),
+  "latencies": latencyList2,
+  "overlapping": true
+};
+site_to_site[1 + "-" + 2 + "-2"] = link2;
+
 if (debug) {
   console.log(site_to_site);
 }
@@ -145,6 +158,7 @@ function draw_lines() {
       ];
       var line_color = null;
       var latency = site_to_site[line_key]["latencies"][get_step_value()];
+      var overlapping = site_to_site[line_key]["overlapping"];
 
       //If Open Dialog Div then Update the Text Contained therein
       if (document.getElementById('link-' + line_key) === null) {
@@ -241,6 +255,15 @@ function draw_lines() {
 
       var symbolSize = 6;
       var symbolPadding = 2;
+
+      if (overlapping) {
+        lineCoordinates = [
+          new google.maps.LatLng(sites[node_from_id]["lat"], sites[node_from_id]["lng"]),
+          new google.maps.LatLng(sites[node_from_id]["lat"] + 0.01, sites[node_from_id]["lng"]),
+          new google.maps.LatLng(sites[node_to_id]["lat"], sites[node_to_id]["lng"] - 0.01),
+          new google.maps.LatLng(sites[node_to_id]["lat"], sites[node_to_id]["lng"])
+        ];
+      }
 
       var line = new google.maps.Polyline({
         path: lineCoordinates,
